@@ -12,7 +12,7 @@ class NewTaskMail {
     return 'NewTaskMail-job'
   }
 
-  async handle ({ username, title, file, email }) {
+  async handle ({ email, username, title, file }) {
     console.log(`Job: ${NewTaskMail.key}`)
 
     await Mail.send(
