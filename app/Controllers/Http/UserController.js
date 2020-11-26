@@ -1,5 +1,6 @@
 'use strict'
 
+const Database = use('Database')
 const User = use('App/Models/User')
 
 class UserController {
@@ -8,9 +9,12 @@ class UserController {
     const address = request.input('address')
     // o input retorna apenas uma informação do body da requisição
 
-    const user = await User.create(data)
+    const trx = await Database.beginTransaction()
 
-    await user.addresses().createMany(address)
+    const user = await User.create(data, trx)
+    await user.addresses().createMany(address, trx)
+
+    await trx.commit()
 
     return user
   }
